@@ -3,21 +3,21 @@
 #
 
 variable "cluster-name" {
-  default = "terraform-eks-demo"
+  default = "quick-eks-cluster"
   type    = "string"
 }
 
 variable "desired-workers" {
-  default = "2"
+  default = "3"
   type    = "string"
 }
 
 variable "max-workers" {
-  default = "2"
+  default = "4"
   type    = "string"
 }
 
 variable "min-workers" {
-  default = "1"
+  default = "3"
   type    = "string"
 }

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -e
+
+reset='\e[0;0m'
+red='\e[0;31m'
+blue='\e[0;34m'
+
+error() {
+  printf "$red$1$reset\n"
+}
+
+log() {
+  printf "$blue$1$reset\n"
+}
+
+if [ ! -f "eks.plan" ]; then
+  error 'Missing the "eks.plan" file. Make sure to run the following first:'
+  echo 'terraform plan -out eks.plan'
+  exit 1
+fi
+
+log 'Running: terraform apply "eks.plan"'
+terraform apply "eks.plan"
+
+log 'Running: terraform output kubeconfig > kubeconfig.yml'
+terraform output kubeconfig > kubeconfig.yml
+
+log 'Running: terraform output config_map_aws_auth > config_map_aws_auth.yml'
+terraform output config_map_aws_auth > config_map_aws_auth.yml
+
+log 'Running: kubectl apply -f config_map_aws_auth.yml'
+kubectl apply -f config_map_aws_auth.yml
+
+printf "${blue}Run ${reset}kubectl get nodes --watch${blue} to watch your workers become available.${reset}\n"

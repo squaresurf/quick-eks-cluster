@@ -7,3 +7,10 @@
 
 # .tfvars files
 *.tfvars
+
+# plan files
+*.plan
+
+# k8s output files
+config_map_aws_auth.yml
+kubeconfig.yml
