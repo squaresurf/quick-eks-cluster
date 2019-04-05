@@ -1,7 +1,10 @@
-# EKS Getting Started Guide Configuration
+# Quick EKS Cluster
 
-This is the full configuration from https://www.terraform.io/docs/providers/aws/guides/eks-getting-started.html
+This is a full setup for quickly spinning up a EKS cluster. I needed a quick way to spin up and down an EKS
+cluster in order to test out ideas without paying for a long running EKS cluster.
 
-See that guide for additional information.
+## Credit
 
-NOTE: This full configuration utilizes the [Terraform http provider](https://www.terraform.io/docs/providers/http/index.html) to call out to icanhazip.com to determine your local workstation external IP for easily configuring EC2 Security Group access to the Kubernetes master servers. Feel free to replace this as necessary.
+This started from
+https://github.com/terraform-providers/terraform-provider-aws/tree/master/examples/eks-getting-started and has
+morphed over time to be more configurable and quick to use.
