@@ -3,10 +3,12 @@
 This is a full setup for quickly spinning up a EKS cluster. I needed a quick way to spin up and down an EKS
 cluster in order to test out ideas without paying for a long running EKS cluster.
 
+
 ## spin-up
 
 There is a `./spin-up` script in the root of this repo for conviently spinning
 up an EKS cluster. It expects that you've ran `terraform plan -out eks.plan` first.
+
 
 ## Terraform variables
 
@@ -14,6 +16,13 @@ Terraform variables are used to provide a quick way to personalize your eks clus
 file to see what configuration options exist. Read [terraform's variable
 primer](https://learn.hashicorp.com/terraform/getting-started/variables.html#assigning-variables) to learn
 how to set variables.
+
+
+## asdf
+
+[asfd](https://asdf-vm.com/#/) is a runtime version manager that can be used to make sure you're using a
+compatible version of terraform. The terraform version is managed in the .tool-versions file in the root of
+this repo.
 
 
 ## direnv
