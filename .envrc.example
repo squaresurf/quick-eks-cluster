@@ -2,6 +2,8 @@
 
 export KUBECONFIG=kubeconfig.yml
 
+export TF_VAR_cluster_name="your-eks"
+
 # Uncomment if you'd like to select your AWS profile and region
 # export AWS_PROFILE="..."
 # export AWS_DEFAULT_REGION=us-west-2

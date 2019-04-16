@@ -2,22 +2,22 @@
 # Variables Configuration
 #
 
-variable "cluster-name" {
+variable "cluster_name" {
   default = "quick-eks-cluster"
   type    = "string"
 }
 
-variable "desired-workers" {
-  default = "3"
-  type    = "string"
-}
-
-variable "max-workers" {
+variable "desired_workers" {
   default = "4"
   type    = "string"
 }
 
-variable "min-workers" {
+variable "max_workers" {
+  default = "4"
+  type    = "string"
+}
+
+variable "min_workers" {
   default = "3"
   type    = "string"
 }

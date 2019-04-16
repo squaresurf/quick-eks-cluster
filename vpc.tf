@@ -11,8 +11,8 @@ resource "aws_vpc" "demo" {
 
   tags = "${
     map(
-      "Name", "${var.cluster-name}-node",
-      "kubernetes.io/cluster/${var.cluster-name}", "shared",
+      "Name", "${var.cluster_name}-node",
+      "kubernetes.io/cluster/${var.cluster_name}", "shared",
     )
   }"
 }
@@ -26,8 +26,8 @@ resource "aws_subnet" "demo" {
 
   tags = "${
     map(
-      "Name", "${var.cluster-name}-node",
-      "kubernetes.io/cluster/${var.cluster-name}", "shared",
+      "Name", "${var.cluster_name}-node",
+      "kubernetes.io/cluster/${var.cluster_name}", "shared",
     )
   }"
 }
@@ -36,7 +36,7 @@ resource "aws_internet_gateway" "demo" {
   vpc_id = "${aws_vpc.demo.id}"
 
   tags = {
-    Name = "${var.cluster-name}"
+    Name = "${var.cluster_name}"
   }
 }
 

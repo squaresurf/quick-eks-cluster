@@ -8,7 +8,7 @@
 #
 
 resource "aws_iam_role" "demo-node" {
-  name = "${var.cluster-name}-node"
+  name = "${var.cluster_name}-node"
 
   assume_role_policy = <<POLICY
 {
@@ -42,12 +42,12 @@ resource "aws_iam_role_policy_attachment" "demo-node-AmazonEC2ContainerRegistryR
 }
 
 resource "aws_iam_instance_profile" "demo-node" {
-  name = "${var.cluster-name}"
+  name = "${var.cluster_name}"
   role = "${aws_iam_role.demo-node.name}"
 }
 
 resource "aws_security_group" "demo-node" {
-  name        = "${var.cluster-name}-node"
+  name        = "${var.cluster_name}-node"
   description = "Security group for all nodes in the cluster"
   vpc_id      = "${aws_vpc.demo.id}"
 
@@ -60,8 +60,8 @@ resource "aws_security_group" "demo-node" {
 
   tags = "${
     map(
-     "Name", "${var.cluster-name}-node",
-     "kubernetes.io/cluster/${var.cluster-name}", "owned",
+     "Name", "${var.cluster_name}-node",
+     "kubernetes.io/cluster/${var.cluster_name}", "owned",
     )
   }"
 }
@@ -105,7 +105,7 @@ locals {
   demo-node-userdata = <<USERDATA
 #!/bin/bash
 set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.demo.endpoint}' --b64-cluster-ca '${aws_eks_cluster.demo.certificate_authority.0.data}' '${var.cluster-name}'
+/etc/eks/bootstrap.sh --apiserver-endpoint '${aws_eks_cluster.demo.endpoint}' --b64-cluster-ca '${aws_eks_cluster.demo.certificate_authority.0.data}' '${var.cluster_name}'
 USERDATA
 }
 
@@ -114,7 +114,7 @@ resource "aws_launch_configuration" "demo" {
   iam_instance_profile        = "${aws_iam_instance_profile.demo-node.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
   instance_type               = "m4.large"
-  name_prefix                 = "${var.cluster-name}"
+  name_prefix                 = "${var.cluster_name}"
   security_groups             = ["${aws_security_group.demo-node.id}"]
   user_data_base64            = "${base64encode(local.demo-node-userdata)}"
 
@@ -124,21 +124,21 @@ resource "aws_launch_configuration" "demo" {
 }
 
 resource "aws_autoscaling_group" "demo" {
-  desired_capacity     = "${var.desired-workers}"
+  desired_capacity     = "${var.desired_workers}"
   launch_configuration = "${aws_launch_configuration.demo.id}"
-  max_size             = "${var.max-workers}"
-  min_size             = "${var.min-workers}"
-  name                 = "${var.cluster-name}"
+  max_size             = "${var.max_workers}"
+  min_size             = "${var.min_workers}"
+  name                 = "${var.cluster_name}"
   vpc_zone_identifier  = ["${aws_subnet.demo.*.id}"]
 
   tag {
     key                 = "Name"
-    value               = "${var.cluster-name}"
+    value               = "${var.cluster_name}"
     propagate_at_launch = true
   }
 
   tag {
-    key                 = "kubernetes.io/cluster/${var.cluster-name}"
+    key                 = "kubernetes.io/cluster/${var.cluster_name}"
     value               = "owned"
     propagate_at_launch = true
   }

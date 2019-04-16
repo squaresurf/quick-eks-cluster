@@ -6,7 +6,7 @@
 #
 
 resource "aws_iam_role" "demo-cluster" {
-  name = "${var.cluster-name}-cluster"
+  name = "${var.cluster_name}-cluster"
 
   assume_role_policy = <<POLICY
 {
@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "demo-cluster-AmazonEKSServicePolicy" 
 }
 
 resource "aws_security_group" "demo-cluster" {
-  name        = "${var.cluster-name}-cluster"
+  name        = "${var.cluster_name}-cluster"
   description = "Cluster communication with worker nodes"
   vpc_id      = "${aws_vpc.demo.id}"
 
@@ -47,7 +47,7 @@ resource "aws_security_group" "demo-cluster" {
   }
 
   tags = {
-    Name = "${var.cluster-name}"
+    Name = "${var.cluster_name}"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_security_group_rule" "demo-cluster-ingress-workstation-https" {
 }
 
 resource "aws_eks_cluster" "demo" {
-  name     = "${var.cluster-name}"
+  name     = "${var.cluster_name}"
   role_arn = "${aws_iam_role.demo-cluster.arn}"
 
   vpc_config {

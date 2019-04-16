@@ -27,14 +27,15 @@ if [ ! -f "eks.plan" ]; then
   exit 2
 fi
 
-check terraform
+check aws
 check kubectl
+check terraform
 
 log 'Running: terraform apply "eks.plan"'
 terraform apply "eks.plan"
 
-log 'Running: terraform output kubeconfig > kubeconfig.yml'
-terraform output kubeconfig > kubeconfig.yml
+log 'Running: aws eks update-kubeconfig --name $TF_VAR_cluster_name'
+aws eks update-kubeconfig --name $TF_VAR_cluster_name
 
 log 'Running: terraform output config_map_aws_auth > config_map_aws_auth.yml'
 terraform output config_map_aws_auth > config_map_aws_auth.yml
