@@ -9,6 +9,23 @@ cluster in order to test out ideas without paying for a long running EKS cluster
 There is a `./spin-up` script in the root of this repo for conviently spinning
 up an EKS cluster. It expects that you've ran `terraform plan -out eks.plan` first.
 
+### config_auth_users.yml
+
+You can create an optional config_auth_users.yml file before running `./spin-up` if you would like to allow other IAM users to have access to your EKS cluster. This file needs to be indented so that it can be appended to the config_map_aws_auth.yml file that will be used to setup kubectl access.
+
+Example config_auth_users.yml:
+
+```
+  mapUsers: |
+    - userarn: arn:aws:iam::123456:user/some_user
+      username: some_user
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::123456:user/another_user
+      username: some_user
+      groups:
+        - system:masters
+```
 
 ## Terraform variables
 

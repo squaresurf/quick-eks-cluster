@@ -37,8 +37,18 @@ terraform apply "eks.plan"
 log 'Running: aws eks update-kubeconfig --name $TF_VAR_cluster_name'
 aws eks update-kubeconfig --name $TF_VAR_cluster_name
 
-log 'Running: terraform output config_map_aws_auth > config_map_aws_auth.yml'
-terraform output config_map_aws_auth > config_map_aws_auth.yml
+auth_file=config_map_aws_auth.yml
+log "Running: terraform output config_map_aws_auth > $auth_file"
+terraform output config_map_aws_auth > $auth_file
+
+file='config_auth_users.yml'
+if [ -f $file ]; then
+  log "Appending $file to the $auth_file"
+  cat $file >> $auth_file
+fi
+
+log 'Sleeping for a moment (10s) to allow things to get ready before applying auth'
+sleep 10
 
 log 'Running: kubectl apply -f config_map_aws_auth.yml'
 kubectl apply -f config_map_aws_auth.yml
